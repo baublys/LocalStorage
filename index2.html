@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>LocalStorage Output</title>
+  <link rel="stylesheet" href="./css/local.css">
+  <script src="./js/jquery.js"></script> 
+
+  <script>
+    $( document ).ready(function() {
+      $("#localText").text( localStorage.getItem("liquValue") );
+      $("#localImage").attr("src", localStorage.getItem("liquImage") );
+    });
+  </script>
+  
+</head>
+<body>
+
+  <div class="container">
+    <h2>Из LocalStorage</h2>
+      <div id="localText">8758758o7</div>
+      <img id="localImage" src="#" width="400">
+	<br><br><br>
+        <a href="index.html">index1</a>
+		<a href="index3.html">index3</a>
+  </div>
+ 
+
+</body></html>

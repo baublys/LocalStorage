@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>LocalStorage Input</title>
+  <link rel="stylesheet" href="./css/local.css">
+  <script src="./js/jquery.js"></script> 
+
+  <script>
+    var recordText = function(){
+      var temp = document.getElementById('myinput').value;
+      localStorage.setItem('liquValue', temp);
+      $("#resultLoad1").text("Загружено!");
+    }
+
+    $( document ).ready(function() {
+      function readImage(fileInput) {
+        if ( fileInput.files && fileInput.files[0] ) {
+          var FR= new FileReader();
+          FR.onload = function(e) {
+            $("#resultLoad2").text("Загружено!");
+            localStorage.setItem('liquImage', e.target.result);
+          };       
+          FR.readAsDataURL( fileInput.files[0] );
+        }
+      }
+
+      function validateSize(fileInput) {
+        var fileObj, size;
+        if ( typeof ActiveXObject == "function" ) { // IE
+          fileObj = (new ActiveXObject("Scripting.FileSystemObject")).getFile(fileInput.value);
+        }else {
+          fileObj = fileInput.files[0];
+        }
+       
+        size = fileObj.size; //Размер в байтах
+        if(size > 300 * 1024){//300 Kb
+          alert('Слишком большой размер файла (максимум 300 Kb)');
+          //Очищаем поле ввода файла
+          fileInput.parentNode.innerHTML = fileInput.parentNode.innerHTML;
+        }
+      }
+
+      $("#image_file").change(function () {
+        validateSize(this);
+      });
+
+      $("#loadImage").click(function () {
+        readImage($("#image_file")[0]);
+      });
+    });
+  </script>
+
+</head>
+<body>
+
+  <div class="container">
+    <h2>В LocalStorage</h2>
+      <section>
+        <input type="text" id="myinput" placeholder="Введите любую строку">
+        <button onclick="recordText();">Записать в LocalStorage</button>
+        <div id="resultLoad1"></div>
+      </section>
+      <section>
+        <input id="image_file" type="file">
+        <button id="loadImage">Загрузить изображение в LS</button>
+        <div id="resultLoad2"></div>
+        <br><br><br>
+		<a href="index2.html">index2</a>
+		<a href="index3.html">index3</a>
+      </section>
+  </div>
+
+
+</body></html>

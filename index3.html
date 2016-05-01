@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru" dir="" class="js">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>LocalStorage Edit</title>
+    <link rel="stylesheet" href="css/style.css">
+	
+	<script type="text/javascript">
+		function saveNote()
+{  
+  var name = document.getElementById('notename').value;
+   /* создание переменной, хранящей значение введенное в поле Наименование.*/
+  var content = document.getElementById('notecontent').value;
+   /* создание переменной для хранения текста самой записи*/
+  if(content == '')
+  {
+    alert('enter valid note text');
+     /* выводим предупреждающее сообщение, в случае, если не задан текст записи, см. рис. 4*/
+  }
+  else 
+  {
+   if (name == 0)
+    {
+      alert('enter valid note name');
+       /* выводим предупреждающее сообщение, если не задано наименование записи, см. рис. 5*/
+    }
+    else {localStorage[name] = content;}
+     /* создание записи в localStorage, обратите внимание, что наименование 
+        записи является идентификатором, по которому сможем извлечь текст записи*/
+/*Также отметим, что если пользователь выберет уже существующую запись и введет
+  новый текст, без изменения наименования, то, по сути, произойдет редактирование
+  записи, поскольку новое значение текста сохранится поверх старого, соответственно,
+  если будет изменено наименование записи, то, фактически, произойдет создание новой*/
+  }
+}
+
+function listLoad()
+{
+  var list = document.getElementById('notelist');
+   /* получаем доступ к элементу - списку нашей веб - страницы*/
+  for(var i in localStorage)
+   /* цикл для перебора каждого значения, сохраненного в localStorage,
+    при этом i, принимает значение идентификатора хранимых данных, т.е., в нашем 
+    примере, переменная i содержит наименование записи*/
+  {
+   var a = document.createElement('a'); /* создаем новый html - */
+   a.setAttribute('onclick', "loadNote('"+i+"'); return false;");
+    /*определяем атрибут onclick, при клике, в нашем случае, вызовется функция 
+    loadNote с параметром Наименования записи*/
+   a.innerText = i;
+    /* задаем значение текста ссылки эквивалентным наименованию записи*/
+   var element = document.createElement('li');
+    /* создаем новый html - элемент, а именно пункт списка*/
+   element.appendChild(a);
+    /* добавляем пункту списка дочерний элемент – ссылку*/
+   list.appendChild(element);
+    /* добавляем списку дочерний элемент – пункт списка*/
+  } 
+} 
+
+function loadNote(v)
+{
+  document.getElementById('notecontent').value = localStorage[v];
+   /*выводим в текстовое поле текст записи*/
+  document.getElementById('notename').value = v;
+   /* выводим в поле наименование записи*/
+}
+
+function deleteNote()
+{
+  var name = document.getElementById('notename').value;
+   /*получаем значение наименования текущей записи из текстового поля*/
+  if (name != '')
+  {
+  localStorage.removeItem(name);
+   /*удаление записи, в качестве идентификатора записи используется ее наименование*/
+  }
+  else {alert('note not found');}
+   /* сообщение, выдаваемое при попытке удалить неопределенную запись*/
+}
+
+	</script>
+		
+</head>
+
+<body onload="listLoad();" >
+  <div id="header">
+   <h1>Редактор LocalStorage</h1>
+  </div>
+    
+  <div id="notes">
+   <h3> Список записей</h3>
+   <ol id="notelist"></ol>
+  </div>
+  
+  <div id="note">
+   <form id="formnote">
+    
+    <fieldset>
+     <table>
+      <tr>
+       <td><label class="notefield">Наименование</label></td>
+       <td colspan=2><input id="notename" type="text" class="notefield"></input></td>
+      </tr>
+      <tr>
+       <td><label class="notefield">Текст записи</label></td>
+       <td colspan=2><textarea id="notecontent" rows=10></textarea></td>
+      </tr>
+      
+      <tr>
+       <td></td>
+       <td class="notebtn"><button id="save" type="submit" onclick="saveNote(); ">Сохранить</button></td>
+       <td class="notebtn"><button id="delete" type="submit" onclick="deleteNote();">Удалить</button></td>
+      </tr>
+     </table>
+    </fieldset>
+   </form>
+  </div>
+  
+  <div id="footer">
+	<br>
+	<a href="index.html">index1</a>
+	<a href="index2.html">index2</a>
+		
+   <p class="footertext">2016 г.</p>
+  </div>
+ </body>
+ 
+</html>
